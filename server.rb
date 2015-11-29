@@ -1,14 +1,38 @@
 require "sinatra"
 require "pg"
 
+configure :development do
+  set :db_config, { dbname: "restaurants" }
+end
+
+configure :production do
+  uri = URI.parse(ENV["DATABASE_URL"])
+  set :db_config, {
+    host: uri.host,
+    port: uri.port,
+    dbname: uri.path.delete('/'),
+    user: uri.user,
+    password: uri.password
+  }
+end
+
 def db_connection
   begin
-    connection = PG.connect(dbname: "restaurants")
+    connection = PG.connect(settings.db_config)
     yield(connection)
   ensure
     connection.close
   end
 end
+
+# def db_connection
+#   begin
+#     connection = PG.connect(dbname: "restaurants")
+#     yield(connection)
+#   ensure
+#     connection.close
+#   end
+# end
 
 def exec_query(sql, values = [])
   result = nil
