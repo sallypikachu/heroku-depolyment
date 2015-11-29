@@ -6,4 +6,4 @@ A Sinatra app that:
 * Recommends a random restaurant
 
 # Heroku Deployment
-https://what-is-for-lunch-dev.herokuapp.com/
+[What is for Lunch](https://what-is-for-lunch-dev.herokuapp.com/)
